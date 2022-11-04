@@ -91,6 +91,12 @@ CACTUS_FLAME = [
     pygame.image.load(os.path.join(IMG_DIR, 'flame/cacti1_flame_1 - copia.png'))
 ]
 
+BIRD_FLAME = [
+    pygame.image.load(os.path.join(IMG_DIR, 'flame/bird_flame_0.png')),
+    pygame.image.load(os.path.join(IMG_DIR, 'flame/bird_flame_1.png')),
+    pygame.image.load(os.path.join(IMG_DIR, 'flame/bird_flame_0 - copia.png'))
+]
+
 FLAME_RUNNING  = [
     pygame.image.load(os.path.join(IMG_DIR, 'flame/DinoRun1.png')),
     pygame.image.load(os.path.join(IMG_DIR, 'flame/DinoRun2.png'))
@@ -132,3 +138,7 @@ FIRE_TYPE = "fire"
 FONT_STYLE = 'dino_runner/utils/PressStart2P-vaV7.ttf'
 
 SOUND_FLAME = 'dino_runner/assets/sound/Flame.mp3'
+
+SOUND = 'dino_runner/assets/sound/sound.mp3'
+
+SOUND_GAME_OVER = 'dino_runner/assets/sound/perdiste.mp3'

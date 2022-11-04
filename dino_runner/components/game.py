@@ -3,7 +3,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
 from .score import Score
-from dino_runner.utils.constants import BG, CLOUD, DEFAULT_TYPE, FRONT_PAGE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE, LOGO
+from dino_runner.utils.constants import BG, CLOUD, DEFAULT_TYPE, FRONT_PAGE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE, LOGO,SOUND,SOUND_GAME_OVER
 
 
 class Game:
@@ -19,6 +19,8 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.death_count = 0
+        self.sound = pygame.mixer.music.load(SOUND)
+        self.sound_lose = pygame.mixer.Sound(SOUND_GAME_OVER)
 
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
@@ -35,6 +37,7 @@ class Game:
 
     def run(self):
         # Game loop: events - update - draw
+        pygame.mixer.music.play()
         self.reset_game()
         while self.playing:
             self.events()

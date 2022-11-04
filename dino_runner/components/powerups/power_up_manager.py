@@ -14,7 +14,7 @@ class PowerUpManager:
 
     def generate_powerups(self, score):
         if len(self.power_ups) == 0 and self.when_appears == score.score:
-            type = 2
+            type = randint(0,2)
             if type == 0:
                 self.power_ups.append(Shield())
             elif type == 1:

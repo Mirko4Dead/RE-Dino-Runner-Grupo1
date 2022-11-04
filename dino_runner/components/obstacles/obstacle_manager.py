@@ -3,7 +3,7 @@ import pygame
 
 from dino_runner.components.obstacles.bird import Bird
 from .cactus import Cactus
-from dino_runner.utils.constants import FIRE_TYPE, SWORD_TYPE, BIRD, CACTUS_BREAK, SHIELD_TYPE, FLAME_TYPE, CACTUS_FLAME
+from dino_runner.utils.constants import FIRE_TYPE, SWORD_TYPE, BIRD, CACTUS_BREAK, SHIELD_TYPE, FLAME_TYPE, CACTUS_FLAME, BIRD_FLAME
 
 class ObstacleManager:
     def __init__(self):
@@ -33,10 +33,13 @@ class ObstacleManager:
                     self.obstacles[0].images = CACTUS_BREAK
                 elif game.player.type == FIRE_TYPE:
                     self.obstacles[0].images = CACTUS_FLAME
+                    self.obstacles[0].image = BIRD_FLAME
                 else:
                     pygame.time.delay(500)
                     game.playing = False
                     game.death_count += 1
+                    pygame.mixer.music.stop()
+                    game.sound_lose.play()
                     break
 
     def draw(self, game):
