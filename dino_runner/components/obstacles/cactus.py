@@ -5,7 +5,7 @@ from dino_runner.utils.constants import LARGE_CACTUS,SMALL_CACTUS
 class Cactus(Obstacle):
     CACTUS = {
         "LARGE":(LARGE_CACTUS, 300),
-        "SMALL":(SMALL_CACTUS, 325),
+        "SMALL":(SMALL_CACTUS, 325)
     }
     def __init__(self, cactus_type):
         images, cactus_pos_y = self.CACTUS[cactus_type]

@@ -1,8 +1,9 @@
 import pygame
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.powerups.power_up_manager import PowerUpManager
 from .score import Score
-from dino_runner.utils.constants import BG, FRONT_PAGE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE, GAME_OVER
+from dino_runner.utils.constants import BG, CLOUD, DEFAULT_TYPE, FRONT_PAGE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE, LOGO
 
 
 class Game:
@@ -22,6 +23,7 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.score = Score()
+        self.power_ups_manager = PowerUpManager()
 
 
     def execute (self):
@@ -44,6 +46,9 @@ class Game:
         self.game_speed = 20
         self.score.score = 0
         self.playing = True
+        self.power_ups_manager.reset_power_ups()
+        self.player.has_power_up = False
+        self.player.type = 'default'
 
     def events(self):
         for event in pygame.event.get():
@@ -53,15 +58,18 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
-        self.obstacle_manager.update(self)
+        self.obstacle_manager.update(self,user_input)
         self.score.update(self)
+        self.power_ups_manager.update(self.game_speed, self.player, self.score)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
+        self.draw_power_up_time()
         self.obstacle_manager.draw(self)
+        self.power_ups_manager.draw(self.screen)
         self.score.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
@@ -82,6 +90,7 @@ class Game:
         if self.death_count == 0:
             self.screen_printing(half_screen_width, half_screen_height + 100, "Press any key to play", (255,255,255), 20)
             self.screen.blit(FRONT_PAGE, (300 , 100))
+            self.screen.blit(LOGO, (1000 , 500))
         else:
             self.screen_printing(half_screen_width, half_screen_height + 100, "Press any key to retry", (255,255,255), 20)
             self.screen_printing(half_screen_width, half_screen_height ,f"High Score:{self.score.high_score}", (255,255,255), 20)
@@ -104,3 +113,13 @@ class Game:
         text_rect = text.get_rect()
         text_rect.center = (pos_x, pos_y)
         self.screen.blit(text, text_rect)
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_up_time_up - pygame.time.get_ticks()) /1000 , 1)
+            if time_to_show >= 0:
+                self.screen_printing(500, 40,f"{self.player.type.capitalize()} :{time_to_show}", (0, 0, 0), 20)
+            else:
+                self.player.has_power_up = False
+                self.player.type = DEFAULT_TYPE
+
